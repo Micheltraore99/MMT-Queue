@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1280, initial-scale=1.0" />
+  
+  <title>File d'attente - Cas d'une banque</title>
+  <meta name="description" content="Système intelligent et moderne de gestion de file d'attente côté client dans le cas d'une banque." />
+  <meta property="og:title" content="File d'attente - Cas d'une banque" />
+  <meta property="og:description" content="Système intelligent et moderne de gestion de file d'attente côté client dans le cas d'une banque." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#1769AA" />
+
+  <!-- Google Font : Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Feuille de styles principale -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="antialiased selection:bg-[#1769AA] selection:text-white bg-[#EAF3FA] min-w-[1200px]">
+
+  <!-- ========================================================================
+       BARRE DE NAVIGATION SUPÉRIEURE (OPTIMISÉE ÉCRANS PC)
+       ======================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#FFFFFF] border-b border-[#DCE7F1] shadow-[0_1px_4px_rgba(16,36,58,0.04)] h-[76px]">
+    <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+      
+      <!-- Logo généré par IA + Titre -->
+      <a href="#hero" class="flex items-center gap-3.5 group" aria-label="Accueil">
+        <div class="w-12 h-12 rounded-xl bg-white border border-[#DCE7F1] shadow-xs flex items-center justify-center overflow-hidden p-0.5 group-hover:shadow-md transition-shadow">
+          <img 
+            src="/src/assets/images/bank_logo_emblem_1791633580489.jpg" 
+            alt="Logo banque officiel" 
+            referrerpolicy="no-referrer"
+            class="w-full h-full object-contain" />
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-tight text-[#10243A]">File d'attente</span>
+            <span class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-md bg-[#EAF3FA] text-[#1769AA] border border-[#DCE7F1]">
+              Cas d'une banque
+            </span>
+          </div>
+          <span class="text-xs text-[#536579] font-medium flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-building-columns text-[#1769AA]"></i>
+            Agence Centrale • Guichets 01 à 06
+          </span>
+        </div>
+      </a>
+
+      <!-- Menu de navigation horizontal PC bien ordonné -->
+      <nav class="flex items-center gap-8 text-[14px] font-semibold text-[#536579]">
+        <a href="#hero" class="hover:text-[#1769AA] transition-colors py-2 flex items-center gap-2">
+          <i class="fa-solid fa-house text-xs text-[#1769AA]"></i>
+          <span>Accueil</span>
+        </a>
+        <a href="#services" class="hover:text-[#1769AA] transition-colors py-2 flex items-center gap-2">
+          <i class="fa-solid fa-ticket text-xs text-[#1769AA]"></i>
+          <span>1. Prendre un ticket</span>
+        </a>
+        <a href="#mon-ticket" class="hover:text-[#1769AA] transition-colors py-2 flex items-center gap-2">
+          <i class="fa-solid fa-id-card text-xs text-[#1769AA]"></i>
+          <span>2. Mon ticket actif</span>
+        </a>
+        <a href="#suivi" class="hover:text-[#1769AA] transition-colors py-2 flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass text-xs text-[#1769AA]"></i>
+          <span>3. Suivi &amp; Recherche</span>
+        </a>
+        <a href="#ecran-public" class="hover:text-[#1769AA] transition-colors py-2 flex items-center gap-2">
+          <i class="fa-solid fa-tv text-xs text-[#1769AA]"></i>
+          <span>4. Écran de l'agence</span>
+        </a>
+      </nav>
+
+      <!-- Contrôles à droite (Son et Horloge en direct) -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Horloge PC en direct -->
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#DCE7F1] text-xs font-mono font-bold text-[#10243A]">
+          <i class="fa-regular fa-clock text-[#1769AA]"></i>
+          <span id="live-branch-clock">10:52:00</span>
+        </div>
+
+        <!-- Carillon sonore toggle -->
+        <button 
+          type="button" 
+          id="audio-toggle-btn"
+          class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#F1F5F9] hover:bg-[#EAF3FA] text-[#1769AA] border border-[#DCE7F1] transition-colors cursor-pointer"
+          title="Activer ou couper le signal sonore">
+          <i class="fa-solid fa-volume-high text-sm"></i>
+        </button>
+
+        <!-- Bouton Prendre un ticket -->
+        <a 
+          href="#services"
+          class="btn-primary !py-2.5 !px-5 text-sm">
+          <i class="fa-solid fa-ticket text-xs"></i>
+          <span>Prendre un ticket</span>
+        </a>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTENU PRINCIPAL STRUCTURÉ DANS L'ORDRE LOGIQUE
+       ======================================================================== -->
+  <main class="flex-grow space-y-12 py-10">
+
+    <!-- ======================================================================
+         SECTION 1 : ACCUEIL & PRÉSENTATION ORDONNÉE (HERO PC)
+         ====================================================================== -->
+    <section id="hero" class="max-w-7xl mx-auto px-6">
+      <div class="card-white p-10 bg-white">
+        
+        <div class="grid grid-cols-12 gap-10 items-center">
+          
+          <!-- Colonne gauche -->
+          <div class="col-span-7 space-y-5">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3FA] border border-[#DCE7F1] text-xs font-semibold text-[#1769AA]">
+              <i class="fa-solid fa-building-columns text-sm text-[#1769AA]"></i>
+              <span>File d'attente bancaire – Côté client</span>
+            </div>
+
+            <h1 class="text-4xl lg:text-[44px] font-extrabold text-[#10243A] leading-[1.2] tracking-tight">
+              Votre temps compte.<br />
+              <span class="text-[#1769AA]">Attendez moins.</span>
+            </h1>
+
+            <p class="text-base text-[#536579] max-w-xl leading-relaxed">
+              Sélectionnez votre opération ci-dessous pour obtenir immédiatement votre numéro de passage. Suivez en temps réel votre position dans la file d'attente sans attendre debout.
+            </p>
+
+            <!-- Boutons ordonnés -->
+            <div class="flex items-center gap-4 pt-2">
+              <a href="#services" class="btn-primary">
+                <i class="fa-solid fa-ticket"></i>
+                <span>Choisir un service bancaire</span>
+              </a>
+
+              <a href="#suivi" class="btn-secondary">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Suivre un ticket existant</span>
+              </a>
+            </div>
+
+            <!-- Indicateurs clés du hall d'agence -->
+            <div class="grid grid-cols-3 gap-4 pt-4 border-t border-[#DCE7F1]">
+              <div class="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1]">
+                <span class="text-xs font-semibold text-[#536579] block">Clients en attente</span>
+                <span class="text-2xl font-extrabold text-[#10243A] font-mono mt-0.5 block" id="hero-waiting-clients">18</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1]">
+                <span class="text-xs font-semibold text-[#536579] block">Guichets ouverts</span>
+                <span class="text-2xl font-extrabold text-[#16845B] font-mono mt-0.5 block">06</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1]">
+                <span class="text-xs font-semibold text-[#536579] block">Attente moyenne</span>
+                <span class="text-2xl font-extrabold text-[#F4A340] font-mono mt-0.5 block" id="hero-avg-wait">~7 min</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Colonne droite : Photographie de la borne -->
+          <div class="col-span-5">
+            <div class="relative rounded-2xl overflow-hidden border border-[#DCE7F1] shadow-md bg-white aspect-[4/3]">
+              <img 
+                src="/src/assets/images/african_woman_kiosk_1791631688749.jpg" 
+                alt="Borne de prise de ticket dans l'agence bancaire"
+                referrerpolicy="no-referrer"
+                class="w-full h-full object-cover object-center" 
+                loading="eager" />
+              
+              <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm border border-[#DCE7F1] py-2 px-3.5 rounded-xl flex items-center justify-between text-xs shadow-xs">
+                <span class="font-bold text-[#10243A] flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#16845B]"></span>
+                  Borne d'accueil numérique
+                </span>
+                <span class="text-[#536579] font-medium text-[11px]">Accès instantané</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 2 : ÉTAPE 1 - CHOIX DU SERVICE BANCAIRE (ORDONNÉ & PROPRE)
+         ====================================================================== -->
+    <section id="services" class="max-w-7xl mx-auto px-6">
+      
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FFFFFF] border border-[#DCE7F1] text-xs font-bold text-[#1769AA] uppercase tracking-wider mb-2">
+            <span>Étape 1 sur 3</span>
+          </div>
+          <h2 class="text-2xl font-bold text-[#10243A]">Nos services bancaires</h2>
+          <p class="text-sm text-[#536579] mt-1">
+            Sélectionnez le service dont vous avez besoin pour recevoir votre ticket immédiatement.
+          </p>
+        </div>
+
+        <div class="text-xs text-[#536579] bg-white px-3.5 py-2 rounded-lg border border-[#DCE7F1] flex items-center gap-2 font-medium">
+          <i class="fa-solid fa-circle-info text-[#1769AA]"></i>
+          Attribution automatique par ordre chronologique d'arrivée
+        </div>
+      </div>
+
+      <!-- Les 6 services bancaires bien alignés en grille 3x2 sur PC -->
+      <div id="services-grid" class="grid grid-cols-3 gap-6">
+        <!-- Généré dynamiquement et proprement par JavaScript -->
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         SECTION 3 : ÉTAPE 2 - VOTRE TICKET ACTIF (GRAND BANDEAU ORDONNÉ)
+         ====================================================================== -->
+    <section id="mon-ticket" class="max-w-7xl mx-auto px-6">
+      
+      <div class="card-white overflow-hidden border border-[#DCE7F1] bg-gradient-to-r from-[#10243A] to-[#17304E] text-white p-8">
+        
+        <div class="grid grid-cols-12 gap-8 items-center">
+          
+          <!-- Volet récapitulatif gauche -->
+          <div class="col-span-7 space-y-4">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#16845B]/20 text-[#22C55E] border border-[#22C55E]/30 text-xs font-bold uppercase tracking-wider">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Étape 2 : Votre ticket en cours</span>
+            </div>
+
+            <h3 class="text-3xl font-extrabold text-white tracking-tight" id="ticket-status-title">
+              Votre ticket d'attente
+            </h3>
+
+            <p class="text-sm text-slate-300 leading-relaxed max-w-xl" id="ticket-instructions-text">
+              Conservez cette page ouverte ou mémorisez votre numéro de ticket. Vous serez notifié dès que votre tour arrive à l'un des guichets disponibles.
+            </p>
+
+            <!-- Actions sur le ticket -->
+            <div class="flex items-center gap-3 pt-2">
+              <a href="#suivi" class="btn-white-on-dark text-sm !py-2.5 !px-5">
+                <i class="fa-solid fa-route text-[#1769AA]"></i>
+                <span>Suivre l'avancée de la file</span>
+              </a>
+
+              <a href="#ecran-public" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/30 text-white hover:bg-white/10 text-sm font-semibold transition-colors">
+                <i class="fa-solid fa-tv"></i>
+                <span>Voir l'écran d'affichage</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Billet thermique officiel ordonné à droite -->
+          <div class="col-span-5">
+            <div id="ticket-card-render">
+              <!-- Billet officiel injecté dynamiquement par JavaScript -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         SECTION 4 : ÉTAPE 3 - SUIVI EN DIRECT & RECHERCHE
+         ====================================================================== -->
+    <section id="suivi" class="max-w-7xl mx-auto px-6">
+      
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FFFFFF] border border-[#DCE7F1] text-xs font-bold text-[#1769AA] uppercase tracking-wider mb-2">
+            <span>Étape 3 sur 3</span>
+          </div>
+          <h2 class="text-2xl font-bold text-[#10243A]">Suivi et recherche de ticket</h2>
+          <p class="text-sm text-[#536579] mt-1">
+            Recherchez un numéro de ticket pour consulter votre rang exact et l'état de votre appel.
+          </p>
+        </div>
+
+        <button 
+          type="button" 
+          id="refresh-tracking-btn"
+          class="btn-secondary !py-2 !px-4 text-xs">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Actualiser la position</span>
+        </button>
+      </div>
+
+      <!-- Formulaire de recherche sur PC -->
+      <div class="card-white p-6 bg-white mb-6">
+        <form id="ticket-search-form" onsubmit="event.preventDefault();" class="flex items-center gap-4">
+          <div class="relative flex-grow">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#536579]">
+              <i class="fa-solid fa-ticket text-sm"></i>
+            </div>
+            <input 
+              type="text" 
+              id="search-ticket-input"
+              placeholder="Entrez votre numéro de ticket (ex: D-105, V-201, O-301)..." 
+              class="w-full pl-10 pr-4 py-3 rounded-xl border border-[#DCE7F1] bg-[#F8FAFC] text-[#10243A] font-mono uppercase text-sm focus:bg-white focus:border-[#1769AA] transition-colors"
+              autocomplete="off" />
+          </div>
+
+          <button 
+            type="button" 
+            id="search-ticket-btn"
+            class="btn-primary !py-3 !px-6 text-sm">
+            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+            <span>Rechercher le ticket</span>
+          </button>
+        </form>
+
+        <!-- Puces des tickets récents -->
+        <div class="pt-3 mt-3 border-t border-[#DCE7F1] flex items-center gap-2 text-xs">
+          <span class="text-[#536579] font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-clock-rotate-left text-[#1769AA]"></i>
+            Vos tickets de la session :
+          </span>
+          <div id="session-history-chips" class="flex items-center gap-2">
+            <!-- Puces injectées dynamiquement -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Résultat du suivi avec chronologie ordonnée -->
+      <div id="search-result-container">
+        <!-- Rendu dynamique par JavaScript -->
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         SECTION 5 : ÉCRAN CENTRAL D'AFFICHAGE DE L'AGENCE (VUE PUBLIQUE)
+         ====================================================================== -->
+    <section id="ecran-public" class="max-w-7xl mx-auto px-6">
+      
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FFFFFF] border border-[#DCE7F1] text-xs font-bold text-[#1769AA] uppercase tracking-wider mb-2">
+            <span>Afficheur Central</span>
+          </div>
+          <h2 class="text-2xl font-bold text-[#10243A]">File d'attente – Écran public</h2>
+          <p class="text-sm text-[#536579] mt-1">
+            Moniteur des guichets en temps réel affichant les appels et l'état général des files.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs font-bold text-[#16845B] bg-[#E8F5EE] border border-[#A7F3D0] px-3.5 py-1.5 rounded-lg">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#16845B] animate-pulse"></span>
+          <span>Guichets 01 à 06 en service</span>
+        </div>
+      </div>
+
+      <!-- Tableau d'affichage PC -->
+      <div class="card-white p-8 bg-white">
+        
+        <div class="grid grid-cols-12 gap-8 items-start">
+          
+          <!-- Grand panneau d'appel vert -->
+          <div class="col-span-5 space-y-4">
+            
+            <div class="card-called-green p-8 text-center bg-white">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F5EE] text-[#16845B] text-xs font-bold uppercase tracking-wider mb-4 border border-[#A7F3D0]">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Numéro actuellement appelé</span>
+              </div>
+
+              <div class="my-3">
+                <span id="board-current-number" class="text-6xl font-mono font-black text-[#10243A] block tracking-wider">
+                  D-102
+                </span>
+              </div>
+
+              <div class="my-4 py-3 px-6 rounded-xl bg-[#E8F5EE] border border-[#16845B]/20 inline-block">
+                <span class="text-xs text-[#16845B] uppercase tracking-wider block font-semibold">Présentez-vous au</span>
+                <span id="board-current-counter" class="text-2xl font-black text-[#16845B] uppercase tracking-wider">
+                  GUICHET 03
+                </span>
+              </div>
+
+              <p class="text-xs text-[#536579] mt-2 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-clock text-[#1769AA]"></i>
+                Appelé à <span id="board-current-time" class="font-bold text-[#10243A]">10:52</span>
+              </p>
+            </div>
+
+            <!-- 2 Cartes de synthèse -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1] text-center">
+                <span class="text-xs font-semibold text-[#536579] block mb-1">Tickets en attente</span>
+                <span id="board-waiting-count" class="text-2xl font-black text-[#10243A] font-mono">8</span>
+              </div>
+              <div class="p-4 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1] text-center">
+                <span class="text-xs font-semibold text-[#536579] block mb-1">Temps estimé</span>
+                <span id="board-average-wait" class="text-2xl font-black text-[#1769AA] font-mono">~6 min</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Panneau latéral : Derniers appels & Tableau ordonné des services -->
+          <div class="col-span-7 space-y-5">
+            
+            <!-- Derniers numéros appelés -->
+            <div class="p-4 rounded-xl bg-[#F8FAFC] border border-[#DCE7F1]">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-[#10243A] mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-[#1769AA]"></i>
+                Derniers numéros appelés
+              </h4>
+              <div id="board-recent-calls-list" class="grid grid-cols-2 gap-3">
+                <!-- Injecté par JavaScript -->
+              </div>
+            </div>
+
+            <!-- Tableau synthétique par service -->
+            <div class="rounded-xl border border-[#DCE7F1] overflow-hidden bg-white">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-[#F8FAFC] text-[#536579] border-b border-[#DCE7F1]">
+                    <th class="py-3 px-4 font-semibold">Service</th>
+                    <th class="py-3 px-4 font-semibold">Code</th>
+                    <th class="py-3 px-4 font-semibold">File active</th>
+                    <th class="py-3 px-4 font-semibold">Délai estimé</th>
+                    <th class="py-3 px-4 font-semibold">Guichets dédiés</th>
+                  </tr>
+                </thead>
+                <tbody id="board-services-table-body">
+                  <!-- Injecté par JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         SECTION 6 : ESPACES DE L'AGENCE (GALERIE PROPRE EN 4 COLONNES PC)
+         ====================================================================== -->
+    <section id="galerie" class="max-w-7xl mx-auto px-6">
+      
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-[#10243A]">Les espaces de votre agence</h2>
+        <p class="text-sm text-[#536579] mt-1">
+          Un accueil moderne et fluide pour réaliser toutes vos démarches bancaires.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-4 gap-6">
+        
+        <div class="card-white overflow-hidden bg-white">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img 
+              src="/src/assets/images/kiosk_ticket_client_1791630034068.jpg" 
+              alt="Borne automatique" 
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover" 
+              loading="lazy" />
+          </div>
+          <div class="p-3.5">
+            <h4 class="font-bold text-xs text-[#10243A]">Bornes tactiles</h4>
+            <p class="text-[11px] text-[#536579] mt-0.5">Prise de ticket autonome à l'entrée.</p>
+          </div>
+        </div>
+
+        <div class="card-white overflow-hidden bg-white">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img 
+              src="/src/assets/images/waiting_room_clients_1791630044657.jpg" 
+              alt="Salon d'attente" 
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover" 
+              loading="lazy" />
+          </div>
+          <div class="p-3.5">
+            <h4 class="font-bold text-xs text-[#10243A]">Salon d'attente</h4>
+            <p class="text-[11px] text-[#536579] mt-0.5">Espace confortable et calme.</p>
+          </div>
+        </div>
+
+        <div class="card-white overflow-hidden bg-white">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img 
+              src="/src/assets/images/digital_queue_display_1791630055416.jpg" 
+              alt="Écrans d'affichage" 
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover" 
+              loading="lazy" />
+          </div>
+          <div class="p-3.5">
+            <h4 class="font-bold text-xs text-[#10243A]">Écrans numériques</h4>
+            <p class="text-[11px] text-[#536579] mt-0.5">Affichage des numéros appelés.</p>
+          </div>
+        </div>
+
+        <div class="card-white overflow-hidden bg-white">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img 
+              src="/src/assets/images/bank_advisor_welcome_1791630063870.jpg" 
+              alt="Guichets d'accueil" 
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover" 
+              loading="lazy" />
+          </div>
+          <div class="p-3.5">
+            <h4 class="font-bold text-xs text-[#10243A]">Guichets de service</h4>
+            <p class="text-[11px] text-[#536579] mt-0.5">Conseillers dédiés à vos opérations.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       BARRE DE CONTRÔLE DE LA FILE (SIMULATEUR LOGIQUE EN BAS DE L'ÉCRAN PC)
+       ======================================================================== -->
+  <aside id="demo-controls-panel" class="bg-[#10243A] border-t border-[#1769AA]/30 text-white py-3 px-6 sticky bottom-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#16845B]"></span>
+        <span class="font-bold text-white uppercase tracking-wider">Simulateur d'avancement des guichets :</span>
+        <span class="text-slate-300">Testez l'appel séquentiel chronologique des clients</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button 
+          type="button" 
+          id="btn-simulate-next"
+          class="px-4 py-2 rounded-lg bg-[#16845B] hover:bg-[#136e4c] text-white font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm">
+          <i class="fa-solid fa-forward-step"></i>
+          <span>Appeler le client suivant (Guichet libre)</span>
+        </button>
+
+        <button 
+          type="button" 
+          id="btn-simulate-reset"
+          class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span>Réinitialiser la file</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       PIED DE PAGE ÉPURÉ (SANS TEXTES DE CONFORMITÉ NI DROITS FICTIFS)
+       ======================================================================== -->
+  <footer class="bg-[#10243A] text-white border-t border-[#0c1a2b] py-10">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="flex items-center justify-between pb-6 border-b border-slate-800">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white p-0.5 overflow-hidden flex items-center justify-center">
+            <img 
+              src="/src/assets/images/bank_logo_emblem_1791633580489.jpg" 
+              alt="Logo banque" 
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-contain" />
+          </div>
+          <div>
+            <span class="text-lg font-extrabold tracking-tight block">File d'attente – Cas d'une banque</span>
+            <span class="text-xs text-slate-400">Système de gestion des flux en agence</span>
+          </div>
+        </div>
+
+        <nav class="flex items-center gap-6 text-xs text-slate-400">
+          <a href="#hero" class="hover:text-white transition-colors">Accueil</a>
+          <a href="#services" class="hover:text-white transition-colors">Services</a>
+          <a href="#mon-ticket" class="hover:text-white transition-colors">Mon Ticket</a>
+          <a href="#suivi" class="hover:text-white transition-colors">Suivi</a>
+          <a href="#ecran-public" class="hover:text-white transition-colors">Écran d'agence</a>
+        </nav>
+
+      </div>
+
+      <div class="pt-6 flex items-center justify-between text-xs text-slate-400">
+        <p>© 2026 Système de gestion de file d'attente bancaire. Tous droits réservés.</p>
+        <p class="text-slate-500">Agence bancaire informatisée • Déploiement poste client</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODAL DE CONFIRMATION DU TICKET (ORDRE PROPRE PC)
+       ======================================================================== -->
+  <div 
+    id="kiosk-modal" 
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="kiosk-modal-title">
+    
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 border border-[#DCE7F1] shadow-2xl relative">
+      
+      <button 
+        type="button" 
+        id="kiosk-modal-close"
+        class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F1F5F9] hover:bg-[#EAF3FA] text-[#536579] flex items-center justify-center transition-colors cursor-pointer"
+        aria-label="Fermer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-white border border-[#DCE7F1] p-0.5 overflow-hidden flex items-center justify-center">
+          <img 
+            src="/src/assets/images/bank_logo_emblem_1791633580489.jpg" 
+            alt="Logo officiel" 
+            referrerpolicy="no-referrer"
+            class="w-full h-full object-contain" />
+        </div>
+        <div>
+          <h3 id="kiosk-modal-title" class="text-base font-bold text-[#10243A]">Confirmer votre ticket</h3>
+          <p class="text-xs text-[#536579]">Prise de ticket instantanée</p>
+        </div>
+      </div>
+
+      <div id="kiosk-service-summary" class="space-y-3 my-4">
+        <!-- Rempli par JavaScript -->
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button 
+          type="button" 
+          id="kiosk-cancel-btn"
+          class="btn-secondary !py-2.5 flex-1 text-center justify-center text-xs">
+          <i class="fa-solid fa-arrow-left text-xs mr-1"></i>
+          Annuler
+        </button>
+
+        <button 
+          type="button" 
+          id="kiosk-confirm-btn"
+          class="btn-primary !py-2.5 flex-1 text-center justify-center text-xs font-bold">
+          <i class="fa-solid fa-check text-xs mr-1"></i>
+          Obtenir le ticket
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Script Vanilla JavaScript -->
+  <script type="module" src="/script.js"></script>
+</body>
+</html>

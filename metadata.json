@@ -1,0 +1,6 @@
+{
+  "name": "MMT Queue - Gestion de File d'Attente Bancaire",
+  "description": "Système intelligent et moderne de gestion de file d'attente bancaire côté client, sans inscription ni collecte de données personnelles. Conçu par Michel Mamadou Traoré.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

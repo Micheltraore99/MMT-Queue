@@ -1,0 +1,267 @@
+/* ==========================================================================
+   FILE D'ATTENTE — CAS D'UNE BANQUE (INTERFACE PC DESKTOP OFFICIELLE)
+   Conçu pour écrans d'ordinateurs PC
+   ========================================================================== */
+
+@import "tailwindcss";
+
+:root {
+  --primary: #1769AA;
+  --primary-dark: #10243A;
+  --primary-light: #3478B8;
+  --background: #EAF3FA;
+  --surface: #FFFFFF;
+  --surface-secondary: #F1F5F9;
+  --text-primary: #10243A;
+  --text-secondary: #536579;
+  --border: #DCE7F1;
+  --success: #16845B;
+  --warning: #F4A340;
+  --danger: #C62828;
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --shadow-sm: 0 1px 2px 0 rgba(16, 36, 58, 0.04);
+  --shadow-card: 0 4px 16px -2px rgba(16, 36, 58, 0.05);
+  --shadow-card-hover: 0 10px 25px -4px rgba(23, 105, 170, 0.12);
+  --shadow-ticket: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-family);
+  background-color: var(--background);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+/* Boutons principaux et secondaires unifiés */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--primary);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(23, 105, 170, 0.18);
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(16, 36, 58, 0.2);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--surface);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--primary);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  background-color: var(--surface-secondary);
+  color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-white-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #FFFFFF;
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid #FFFFFF;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+.btn-white-on-dark:hover {
+  background-color: #F8FAFC;
+  transform: translateY(-1px);
+}
+
+/* Cartes blanches */
+.card-white {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
+}
+
+/* Carte de service bancaire */
+.service-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Ticket Billet Électronique */
+.ticket-container-white {
+  background: #FFFFFF;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-ticket);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Découpe de billet */
+.ticket-perforation-clean {
+  position: relative;
+  border-bottom: 2px dashed #CBD5E1;
+  margin: 16px 0;
+}
+.ticket-perforation-clean::before,
+.ticket-perforation-clean::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #17304E;
+}
+.ticket-perforation-clean::before {
+  left: -24px;
+}
+.ticket-perforation-clean::after {
+  right: -24px;
+}
+
+/* Carte d'appel vert */
+.card-called-green {
+  background: #FFFFFF;
+  border: 2px solid var(--success);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 24px -4px rgba(22, 132, 91, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.card-called-green::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-color: var(--success);
+}
+
+/* Badges de statut */
+.badge-waiting {
+  background-color: #EBF3FA;
+  color: var(--primary);
+  border: 1px solid #C9DEEF;
+}
+.badge-approaching {
+  background-color: #FEF6EB;
+  color: #B45309;
+  border: 1px solid #FCD34D;
+}
+.badge-called {
+  background-color: #E8F5EE;
+  color: var(--success);
+  border: 1px solid #A7F3D0;
+}
+
+/* Notifications Toast */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  color: var(--text-primary);
+  box-shadow: 0 10px 25px rgba(16, 36, 58, 0.12);
+  border-left: 5px solid var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideDownToast 0.25s ease-out;
+}
+.toast-success {
+  border-left-color: var(--success);
+}
+.toast-warning {
+  border-left-color: var(--warning);
+}
+
+@keyframes slideDownToast {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
